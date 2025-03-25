@@ -1,4 +1,4 @@
-package InputOutput;
+package DSABasics;
 
 import java.util.Scanner;
 
