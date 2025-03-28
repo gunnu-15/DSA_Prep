@@ -2,7 +2,7 @@ package DSABasics;
 
 import java.util.*;
 
-public class Maths_for_DSA {
+public class Basic_Maths {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
