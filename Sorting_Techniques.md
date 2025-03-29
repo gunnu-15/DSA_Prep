@@ -78,3 +78,13 @@ Takes an element & places it in its correct position
 ![Screenshot (577).png](..%2F..%2FOneDrive%2FPictures%2FScreenshots%2FScreenshot%20%28577%29.png)
 
 ![img.png](img.png)
+
+
+# Quick Sort
+
+- Divide and Conquer algorithm
+- Can sort a DS in ascending, & with few minor tweaks, in descending order as well.
+- Pick a Pivot(can be any element - 1st/last/median/random) & place it in its correct position in the sorted array. 
+- E.g [4,6,2,5,7,9,1,3]. Let's say 1st element
+- Correct place of 4 is (instead of 5). Similarly, correct place of 6 is (instead of 9).
+- Smaller on the left, larger on the right
