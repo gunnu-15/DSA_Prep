@@ -157,7 +157,7 @@ public class Basic_Recursion {
         if (leftIndex >= rightIndex) {
             return array;
         }
-        // Collections - swap(array, leftIndex, rightIndex) function
+        // Collections - swap(List, leftIndex, rightIndex) function
         swap(array, leftIndex, rightIndex);
         return reverse_an_array(leftIndex + 1, rightIndex - 1, array);
 
