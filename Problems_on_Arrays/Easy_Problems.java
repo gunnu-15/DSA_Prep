@@ -21,7 +21,11 @@ public class Easy_Problems {
             array1[i] = integer;
         }
 
-        System.out.println("Maximum consecutive ones is: " + maximum_consecutive_ones(array1));
+        System.out.print("Enter the sum K: ");
+        int K = sc.nextInt();
+
+        System.out.println("Length of longest sub array with sum " + K + " is: " +
+                longest_sub_array_with_sum_K_only_positives(array1, n1, K));
 
         // Print the array
 //        for (Integer integer : array1) {
@@ -495,6 +499,7 @@ public class Easy_Problems {
 
     }
 
+    // Important
     public static int find_number_appearing_once_and_other_numbers_twice(int[] array, int n) {
         // Eg: [1,1,2,3,3,4,4] - 2 is the only number occurring once
 
@@ -581,6 +586,103 @@ public class Easy_Problems {
         return xor;
 
         // TC O(n). SC - O(1)
+
+    }
+
+    public static int longest_sub_array_with_sum_K_only_positives(int[] array, int n, long K) {
+        // Sub array - Contiguous part of the array Eg: [1,2,3,1,1,1,1,4,2,3]
+
+        // Brute-Force Solution - Generate all sub arrays. 2-Pointer Approach: Keep i-pointer at
+        // the start, keep moving j-pointer until the end. Once j reaches the end, move the
+        // i pointer and now j starts from exactly the ith position pointer
+        /*
+        int longest_sub_array_length = 0;
+        for (int i = 0; i < n; i++) {
+            int sum = 0;
+            for (int j = i; j < n; j++) {
+                // Now, we need to find the sum of all the elements of every sub array
+                sum+=array[j];
+                // How to find the longest sub array length if sum = k; [ith index -> jth index]
+                if (sum == K) {
+                longest_sub_array_length = Math.max(longest_sub_array_length, j - i + 1);
+                }
+            }
+        }
+        // TC ~ O(n^2). SC - O(1)
+        System.out.println(longest_sub_array_length);
+         */
+
+        // Better Approach - Hashing
+        // If there exists a sub array with sum k and (.) element as the last element
+        // Let prefix_sum = x. Let probably there exist a sub array with sum = K.
+        // So, if we get a sum anywhere as (x - K). We hash this sum in a Map
+
+        // Map in Java does not accept primitive data types as keys or values.
+        // Instead, it requires objects. However, Java provides wrapper classes for
+        // primitive types.
+
+        /*
+        Map<Long, Integer> preSumMap = new HashMap<>();
+        Long sum = 0L;
+        int maxLen = 0;
+        for (int i = 0; i < n; i++) {
+            //calculate the prefix sum till index i:
+            sum+=array[i];
+            // if the sum = k, update the maxLen:
+            if (sum == K) {
+                maxLen = Math.max(maxLen, i+1);
+            }
+            // If that sum of the remaining part i.e. x-k exists in the map, we will
+            // calculate the length i.e. i-preSumMap[x-k], and consider the maximum one
+            // comparing it with the existing length we have achieved until now.
+            Long remaining_sum = sum - K;
+
+            //Calculate the length and update maxLen:
+            if (preSumMap.containsKey(remaining_sum)) {
+                int len = i - preSumMap.get(remaining_sum);
+                maxLen = Math.max(maxLen, len);
+            }
+
+            //Finally, update the map checking the conditions:
+            if (!preSumMap.containsKey(sum)) {
+                preSumMap.put(sum, i);
+            }
+        }
+
+        // This becomes the Optimal Solution if array contains +ves, zeroes & -ves.
+        return maxLen;
+         */
+
+        // Optimal Approach - If array only contains +ves & zeroes. 2 Pointer Approach
+        // We are using two pointers i.e. left and right. The left pointer denotes
+        // the starting index of the sub array and the right pointer denotes the ending
+        // index. Now as we want the longest sub array, we will move the right pointer in
+        // a forward direction every time adding the element i.e. a[right] to the sum. But
+        // when the sum of the sub array crosses k, we will move the left pointer in the
+        // forward direction as well to shrink the size of the sub array as well as to
+        // decrease the sum. Thus, we will consider the length of the sub array whenever
+        // the sum becomes equal to k.
+
+        int left_pointer = 0; int right_pointer = 0;
+        long sum = (long) array[0];
+        int maxLen = 0;
+        while (right_pointer < n) {
+            //
+            while (left_pointer <= right_pointer && sum > K) {
+                sum-=array[left_pointer];
+                left_pointer++;
+            }
+            if (sum == K) {
+                maxLen = Math.max(maxLen, right_pointer - left_pointer + 1);
+            }
+            right_pointer++;
+            // Check if the right-pointer is still under the boundary
+            if (right_pointer < n) {
+                sum+=array[right_pointer];
+            }
+        }
+        // TC - O(2n) - ?? Didn't understand clearly. SC - O(1)
+        return maxLen;
 
     }
 
