@@ -600,8 +600,13 @@ public class Easy_Problems {
         for (int i = 0; i < n; i++) {
             int sum = 0;
             for (int j = i; j < n; j++) {
-                // Now, we need to find the sum of all the elements of every sub array
-                sum+=array[j];
+               // Now, we need to find the sum of all the elements of every sub array
+                int sum = 0;
+                // [0th -> 0th], [0th -> 1st], [0th -> 2nd], [0th -> 3rd], ...etc
+                for (int k = i; k <= j; k++) {
+                        sum+=array[k];
+                    }
+
                 // How to find the longest sub array length if sum = k; [ith index -> jth index]
                 if (sum == K) {
                 longest_sub_array_length = Math.max(longest_sub_array_length, j - i + 1);
