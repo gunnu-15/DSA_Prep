@@ -25,8 +25,8 @@ public class BS_on_1D_Arrays {
         System.out.print("Enter the value of x: ");
         int x = sc.nextInt();
 
-        int result = count_occurrences_in_sorted_array_BS(array, x);
-        System.out.println("Total occurrences: " + result);
+        int result = find_minimum_in_rotated_sorted_array(array);
+        System.out.println("Index is: " + result);
 
     }
 
@@ -222,11 +222,12 @@ public class BS_on_1D_Arrays {
         int[] result = new int[2];
 
         if (lower_bound == array.length || array[lower_bound] != x) {
-            result[0] = -1; result[1] = -1;
+            result[0] = -1;
+            result[1] = -1;
             return result;
-        }
-        else {
-            result[0] = lower_bound; result[1] = upper_bound - 1;
+        } else {
+            result[0] = lower_bound;
+            result[1] = upper_bound - 1;
             return result;
         }
         // TC - 2 * O(log base 2(N))
@@ -241,12 +242,13 @@ public class BS_on_1D_Arrays {
         int first_occurrence = first_occurrence_in_sorted_array_BS(array, x);
 
         if (first_occurrence == -1) {
-            result[0] = -1; result[1] = -1;
+            result[0] = -1;
+            result[1] = -1;
             return result;
-        }
-        else {
+        } else {
             int last_occurrence = last_occurrence_in_sorted_array_BS(array, x);
-            result[0] = first_occurrence; result[1] = last_occurrence;
+            result[0] = first_occurrence;
+            result[1] = last_occurrence;
             return result;
         }
     }
@@ -258,10 +260,9 @@ public class BS_on_1D_Arrays {
 
         if (first_occurrence == -1) {
             return 0;
-        }
-        else {
+        } else {
             int last_occurrence = last_occurrence_in_sorted_array_BS(array, x);
-            return (last_occurrence - first_occurrence  + 1);
+            return (last_occurrence - first_occurrence + 1);
         }
     }
 
@@ -272,7 +273,7 @@ public class BS_on_1D_Arrays {
         int first_occurrence = -1;
 
         while (low <= high) {
-            int mid = (low + high)/2;
+            int mid = (low + high) / 2;
             // If you find array[mid] >= x, search to the LEFT
             if (array[mid] > x) {
                 high = mid - 1;
@@ -300,7 +301,7 @@ public class BS_on_1D_Arrays {
         int last_occurrence = -1;
 
         while (low <= high) {
-            int mid = (low + high)/2;
+            int mid = (low + high) / 2;
             // If you find array[mid] >= x, search to the LEFT
             if (array[mid] > x) {
                 high = mid - 1;
@@ -321,9 +322,276 @@ public class BS_on_1D_Arrays {
         return last_occurrence;
     }
 
-    public static void search_element_in_rotated_sorted_array_I() {
+    public static int search_element_in_rotated_sorted_array_distinct(int[] array,
+                                                                      int target) {
+        // Given an array of size N, sorted in ascending order
+        // (with distinct values) and a target value k. Now the array is rotated at
+        // some pivot point unknown to you. Find the index at which k is present and
+        // if k is not present return -1.
+
+        // Eg: [7,8,9,1,2,3,4,5,6] - This arrays is rotated at element 7.
+        // Eg: [4,5,1,2,3] - This arrays is rotated at element 4.
+
+        // Brute-Force Solution - LS: Iterate over the entire array - if element is
+        // found, return the particular index, else return -1. TC - O(n)
+
+        // Optimal Solution - Identify which half is sorted - left/right
+
+        int low = 0, high = array.length - 1;
+        int result = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            // If target is found, return its index straightaway
+            if (array[mid] == target) {
+                return mid;
+            }
+
+            // Check if LEFT half is sorted ?
+            if (array[low] <= array[mid]) {
+                // Check whether target falls in this sorted range - If it does,
+                // continue BS as done previously
+                if (array[low] <= target && target <= array[mid]) {
+                    // continue searching in the LEFT half as target lies here
+                    high = mid - 1;
+                }
+                // If NOT, reject this portion & move to RIGHT half
+                else {
+                    low = mid + 1;
+                }
+
+            }
+
+            // Check if RIGHT half is sorted ?
+            else if (array[mid] <= array[high]) {
+                // Check whether target falls in this sorted range - If it does,
+                // continue BS as done previously
+                if (array[mid] <= target && target <= array[high]) {
+                    // continue searching in the RIGHT half as target lies here
+                    low = mid + 1;
+                }
+                // If NOT, reject this portion & move to the LEFT half
+                else {
+                    high = mid - 1;
+                }
+            }
+
+        }
+        // TC: Worst Case ~ O(n/2) since we've been shrinking the array
+        return result;
+    }
+
+    // Difficult
+    public static boolean search_element_in_rotated_sorted_array_duplicates(int[] array,
+                                                                            int target) {
+
+        // Given an integer array sorted in ascending order (may contain duplicate
+        // values) and a target value k. Now the array is rotated at some pivot point
+        // unknown to you. Return True if k is present and otherwise, return False.
+
+        // Eg: [1,0,1,1,1]. target = 0. This example proves why above code won't work
+        // for some of the duplicate cases
+
+        // Issue: When array[low] = array[mid] = array[high], this poses a challenge
+        // in successfully identifying the sorted half. So, shrink the search space -
+        // increment low & decrement high & continue
+
+        int low = 0, high = array.length - 1;
+        boolean result = false;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            // If target is found, return its index straightaway
+            if (array[mid] == target) {
+                result = true;
+                return result;
+            }
+
+            // Extra condition for Duplicates - SHRINK the search space & continue
+            if (array[low] == array[mid] & array[mid] == array[high]) {
+                // Increment low
+                low = low + 1;
+                // Decrement high
+                high = high - 1;
+                continue;
+            }
+
+            // Check if LEFT half is sorted ?
+            if (array[low] <= array[mid]) {
+                // Check whether target falls in this sorted range - If it does,
+                // continue BS as done previously
+                if (array[low] <= target && target <= array[mid]) {
+                    // continue searching in the LEFT half as target lies here
+                    high = mid - 1;
+                }
+                // If NOT, reject this portion & move to RIGHT half
+                else {
+                    low = mid + 1;
+                }
+
+            }
+
+            // Check if RIGHT half is sorted ?
+            else if (array[mid] <= array[high]) {
+                // Check whether target falls in this sorted range - If it does,
+                // continue BS as done previously
+                if (array[mid] <= target && target <= array[high]) {
+                    // continue searching in the RIGHT half as target lies here
+                    low = mid + 1;
+                }
+                // If NOT, reject this portion & move to the LEFT half
+                else {
+                    high = mid - 1;
+                }
+            }
+
+        }
+        // TC - O(log base 2 (N))
+        return result;
+    }
+
+    // Difficult
+    public static int find_minimum_in_rotated_sorted_array(int[] array) {
+
+        // Given an integer array arr of size N, sorted in ascending order (with
+        // distinct values). Now the array is rotated between 1 to N times which is
+        // unknown. Find the minimum element in the array.
+
+        // Brute-Force Solution - LS
+
+        // Optimal Solution - The sorted array MIGHT have the min element. So, pick the
+        // min from the sorted half & eliminate it.
+        // Eg: [4,5,6,7,0,1,2]
+
+        int low = 0, high = array.length - 1;
+        int minimum = Integer.MAX_VALUE;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            // Check if LEFT half is sorted ?
+            if (array[low] <= array[mid]) {
+
+                // Compare previously stored minimum with subsequent mid to see
+                // if there's a LOWER element present in the array
+                minimum = Math.min(minimum, array[low]);
+                // Discard this half & move to the RIGHT half
+                low = mid + 1;
+            }
+            // Check if RIGHT half is sorted ?
+            else if (array[mid] <= array[high]) {
+                // Compare previously stored minimum with subsequent mid to see
+                // if there's a LOWER element present in the array
+                minimum = Math.min(minimum, array[mid]);
+                // Discard this & move on to the LEFT half
+                high = mid - 1;
+            }
+        }
+        // TC - O(log base 2 (N))
+        return minimum;
+    }
+
+    public static int find_out_how_many_times_array_has_been_rotated(int[] array) {
+        // From the previous function, if you can keep TRACK of the INDEX of the
+        // minimum element, the index would represent - count of no of times array
+        // has been rotated
+
+        int low = 0, high = array.length - 1;
+        int minimum = Integer.MAX_VALUE;
+        int count_index = -1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            // Check if LEFT half is sorted ?
+            if (array[low] <= array[mid]) {
+
+                // Compare previously stored minimum with subsequent mid to see
+                // if there's a LOWER element present in the array
+                if (array[low] < minimum) {
+                    minimum = array[low];
+                    count_index = low;
+                }
+                // Discard this half & move to the RIGHT half
+                low = mid + 1;
+            }
+            // Check if RIGHT half is sorted ?
+            else if (array[mid] <= array[high]) {
+                // Compare previously stored minimum with subsequent mid to see
+                // if there's a LOWER element present in the array
+                if (array[mid] < minimum) {
+                    minimum = array[mid];
+                    count_index = mid;
+                }
+                // Discard this & move on to the LEFT half
+                high = mid - 1;
+            }
+        }
+        // TC - O(log base 2 (N))
+        return count_index;
 
     }
 
+    // Difficult
+    public static int single_element_in_sorted_array(int[] array) {
+        // Given an array of N integers. Every number in the array except one appears
+        // twice. Find the single number in the array.
+
+        // Eg: [1,1,2,2,3,3,4,5,5,6,6]
+        // (even, odd), (even, odd)....(element)....(odd, even), (odd, even)
+        // (even, odd) -> element is on the RIGHT half
+        // (odd, even) -> element is on the LEFT half
+
+        // x (element) x -> Edge cases of 0th & last index - Try eliminating these edge
+        //  or conditional cases: Trim down search space
+
+        int n = array.length;
+
+        if (n == 1) {
+            return array[0];
+        }
+        // Check for 1st element
+        if (array[0] != array[1]) {
+            return array[0];
+        }
+        // Check for last element
+        if (array[n - 1] != array[n - 2]) {
+            return array[n - 1];
+        }
+
+        int low = 0, high = n - 1;
+        int single_element = Integer.MAX_VALUE;
+
+        // Now, after trimming down the search space - Eliminate that half where
+        // element is NOT present
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            // If the immediate left & immediate right elements don't match
+            if (array[mid] != array[mid - 1] && array[mid] != array[mid + 1]) {
+                single_element = array[mid];
+                return single_element;
+            }
+            // If on Odd index, & on immediate left element(even) are same (even, odd)
+            // -> element is on RIGHT half, so eliminate the LEFT half
+            // OR
+            // If on Even index, & on immediate right element(odd) are same (even, odd)
+            // -> element is on RIGHT half, so eliminate the LEFT half
+            if ((mid % 2 == 1 && array[mid] == array[mid - 1]) || (mid % 2 == 0 &&
+                    array[mid] == array[mid + 1])) {
+                low = mid + 1;
+            }
+            // else, element is on LEFT half, so eliminate the RIGHT half
+            else {
+                high = mid - 1;
+            }
+        }
+
+        // If no such single element is present.
+        // TC - O(log base 2(N))
+        return -1;
+    }
 
 }
