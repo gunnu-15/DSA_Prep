@@ -382,7 +382,7 @@ public class BS_on_1D_Arrays {
         return result;
     }
 
-    // Difficult
+    // Medium
     public static boolean search_element_in_rotated_sorted_array_duplicates(int[] array,
                                                                             int target) {
 
@@ -452,7 +452,7 @@ public class BS_on_1D_Arrays {
         return result;
     }
 
-    // Difficult
+    // Medium
     public static int find_minimum_in_rotated_sorted_array(int[] array) {
 
         // Given an integer array arr of size N, sorted in ascending order (with
@@ -534,7 +534,7 @@ public class BS_on_1D_Arrays {
 
     }
 
-    // Difficult
+    // Easy
     public static int single_element_in_sorted_array(int[] array) {
         // Given an array of N integers. Every number in the array except one appears
         // twice. Find the single number in the array.
