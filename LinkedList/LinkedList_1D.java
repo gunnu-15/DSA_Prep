@@ -287,7 +287,7 @@ public class LinkedList_1D {
 
         while (temp != null) {
             // Keep iterating with temp pointing to an element just preceding the value
-            // Thie below logic tracks if temp.next's data = value
+            // This below logic tracks if temp.next's data = value
             if (temp.next.data == value) {
                 // Create the element
                 subsequent_node.next = temp.next;
