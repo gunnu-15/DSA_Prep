@@ -1,11 +1,13 @@
 package LinkedList.Doubly_LinkedList;
 
+import java.util.Stack;
+
 public class Doubly_LinkedList {
     public static void main(String[] args) {
-        int[] arr = {4, 3, 2, 9};
+        int[] arr = {4, 2, 3, 1, 6, 5};
         Node head = convert_array_to_doubly_LL(arr);
         traverse_in_LL(head);
-        Node new_node = insert_before_given_node(head, head.next.next.next, 10);
+        Node new_node = reverse_DLL(head);
         traverse_in_LL(new_node);
     }
 
@@ -187,8 +189,7 @@ public class Doubly_LinkedList {
     public static Node insert_before_kth_element(Node head, int k, int element) {
         if (k == 1) {
             return insert_before_head(head, element);
-        }
-        else {
+        } else {
 
             Node temp = head;
             int count = 0;
@@ -214,6 +215,48 @@ public class Doubly_LinkedList {
         prev.next = new_node;
         given_node.back = new_node;
         return head;
+    }
+
+    // Medium
+    public static Node reverse_DLL(Node head) {
+
+        // Brute-Force Solution - Take a Stack DS.
+        /*
+        Stack<Integer> stack = new Stack<>();
+        Node temp = head;
+        while (temp != null) {
+            // Iterate over each node & push that element into the stack
+            stack.push(temp.data);
+            temp = temp.next;
+        }
+        // Now, we'll take out each element from the top of the stack & create a new LL
+        // in reverse order
+        temp = head;
+        while (temp != null) {
+            // peep() just fetches the top element of the stack, it DOESN'T delete it
+            temp.data = stack.peek();
+            // pop() DELETES the retrieved data
+            stack.pop();
+            temp = temp.next;
+        }
+         */
+        // TC - O(n) + O(n) -> O(2n). SC - O(n) as we're using a Stack DS.
+
+        // Optimal Solution - Swap next & back pointers
+        Node temp = head;
+        Node previous = null;
+        while (temp != null) {
+            // Swap out next & back pointers of a node
+            previous = temp.back;
+            temp.back = temp.next;
+            temp.next = previous;
+            temp = temp.back;
+        }
+        // After all the iterations, previous will point to the 2nd element, & since
+        // we've swapped the next, back pointers, previous.back will fetch the head.
+        assert previous != null;
+        return previous.back;
+        // TC - O(n). SC - O(1)
     }
 
 
