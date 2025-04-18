@@ -1,4 +1,4 @@
-package LinkedList;
+package LinkedList.LinkedListL_1D;
 
 public class LinkedList_1D {
     public static void main(String[] args) {
@@ -11,8 +11,6 @@ public class LinkedList_1D {
 
         head = insert_kth_node(head, 1, 23);
         traverse_in_LL(head);
-
-
     }
 
     // Array to LL: We have stored links to each element using next reference variable
