@@ -72,6 +72,7 @@ public class LinkedList_1D {
         return false;
     }
 
+
     // Deletion - 4 variations
     public static Node delete_head(Node head) {
 
@@ -183,6 +184,7 @@ public class LinkedList_1D {
         }
         return head;
     }
+
 
     // Insertion - 4 variations
     public static Node insert_head(Node prev_head, int value) {

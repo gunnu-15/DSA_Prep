@@ -29,7 +29,7 @@ public class Traversals {
 
     // L R order is common b/w all 3, only the Root position varies
 
-    // Preorder Traversal DFS - Ro L R - Root is Pre, at the start
+    // Preorder Traversal DFS - Root L R - Root is Pre, at the start
     public static void preorderTraversal(TreeNode root, List<Integer> list) {
 
         if (root == null) {
@@ -68,7 +68,7 @@ public class Traversals {
         return list;
     }
 
-    // Postorder Traversal DFS - Ro L R - Root is Post, at the end
+    // Postorder Traversal DFS - L R Root - Root is Post, at the end
     public static void postorderTraversal(TreeNode root, List<Integer> list) {
 
         if (root == null) {
