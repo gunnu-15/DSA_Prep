@@ -51,7 +51,7 @@ public class Easy_Problems {
         System.out.println("Largest element in the array is: " + largest);
     }
 
-    // Important
+
     public static void second_largest_element_in_an_array(int[] array, int n) {
         // Sort the array. TC - O(n * log(N))
         // Find the largest element
@@ -91,6 +91,7 @@ public class Easy_Problems {
                 second_largest = largest;
                 largest = array[i];
             }
+            // What if arr[i] is < largest BUT > second_largest ??
             // Eg: [1,2,4,7,7,5] - Why the below piece of code is required
             else if (array[i] < largest && array[i] > second_largest) {
                 second_largest = array[i];
@@ -213,8 +214,35 @@ public class Easy_Problems {
 
     }
 
+    // Medium
+    public static void right_rotate_an_array_by_k_places(int[] nums, int k) {
 
-    // Important
+        if (nums.length == 1) {
+            return;
+        }
+
+        // Modularize k
+        k = k % nums.length;
+
+        // Firstly, reverse the whole array
+        reverse(nums, 0, nums.length - 1);
+        // Now reverse the 1st k elements, then reverse the next (n-k) elements
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+
+    }
+
+    // Pending ??
+    public static boolean check_if_array_is_sorted_and_rotated_left(int[] nums) {
+        // There may be duplicates in the original array
+        // Firstly, check if the array is sorted in non-decreasing order
+
+        int n = nums.length;
+        return true;
+    }
+
+
+    // Easy: Two Pointer Approach
     public static void move_zeroes_to_the_end(int[] array, int n) {
         // Eg: [1,0,2,3,2,0,0,4,5,1] -> [1,2,3,2,4,5,1,0,0,0]
 
@@ -282,7 +310,7 @@ public class Easy_Problems {
         return -1;
     }
 
-    // Important
+    // Medium - Two Pointer Approach + Min(arr[i], arr[j])
     public static LinkedList<Integer> find_the_union(int[] array1, int[] array2) {
         // Find the Union of 2 sorted arrays(might have duplicates)
         // Eg: arr1 - [1,1,2,3,4,5]. arr2 - [2,3,4,4,5]. union[] - [1,2,3,4,5]
@@ -364,7 +392,7 @@ public class Easy_Problems {
 
     }
 
-    // Important
+    // Medium - Two Pointer Approach + Min(arr[i], arr[j])
     public static LinkedList<Integer> find_the_intersection(int[] array1, int[] array2) {
         // Intersection of 2 sorted arrays
 
@@ -414,7 +442,7 @@ public class Easy_Problems {
         return intersection;
     }
 
-    // Important
+    // Medium - HASHING, Sum of first n natural nos = n(n+1)/2, XOR
     public static int find_missing_number_in_an_array(int[] array, int number) {
 
         // Brute-Force Solution
@@ -476,7 +504,7 @@ public class Easy_Problems {
 
     }
 
-    // Important
+    // Easy - Counter, Max. Update them in O(n)
     public static int maximum_consecutive_ones(int[] array) {
         // Eg: [1,1,0,1,1,1,0,1,1] - Max 3 times consecutively 1 occurs
 
@@ -499,7 +527,7 @@ public class Easy_Problems {
 
     }
 
-    // Important
+    // Easy - XOR
     public static int find_number_appearing_once_and_other_numbers_twice(int[] array, int n) {
         // Eg: [1,1,2,3,3,4,4] - 2 is the only number occurring once
 
@@ -589,6 +617,8 @@ public class Easy_Problems {
 
     }
 
+    // Medium - HASHING + Prefix Sum, Two Pointer Approach
+    // (+ arr[j] until sum > K, if sum > K, - arr[i])
     public static int longest_sub_array_with_sum_K_only_positives(int[] array, int n, long K) {
         // Sub array - Contiguous part of the array Eg: [1,2,3,1,1,1,1,4,2,3]
 
@@ -618,7 +648,7 @@ public class Easy_Problems {
          */
 
         // Better Approach - Hashing
-        // If there exists a sub array with sum k and (.) element as the last element
+        // If there exists a sub array with sum k and element (a) as the last element
         // Let prefix_sum = x. Let probably there exist a sub array with sum = K.
         // So, if we get a sum anywhere as (x - K). We hash this sum in a Map
 
@@ -668,13 +698,14 @@ public class Easy_Problems {
         // decrease the sum. Thus, we will consider the length of the sub array whenever
         // the sum becomes equal to k.
 
-        int left_pointer = 0; int right_pointer = 0;
+        int left_pointer = 0;
+        int right_pointer = 0;
         long sum = (long) array[0];
         int maxLen = 0;
         while (right_pointer < n) {
             //
             while (left_pointer <= right_pointer && sum > K) {
-                sum-=array[left_pointer];
+                sum -= array[left_pointer];
                 left_pointer++;
             }
             if (sum == K) {
@@ -683,7 +714,7 @@ public class Easy_Problems {
             right_pointer++;
             // Check if the right-pointer is still under the boundary
             if (right_pointer < n) {
-                sum+=array[right_pointer];
+                sum += array[right_pointer];
             }
         }
         // TC - O(2n) - ?? Didn't understand clearly. SC - O(1)
