@@ -184,7 +184,7 @@ public class Easy_Problems {
 
     }
 
-    // Important
+    // Important - Modularize d(d = d % array.length). Reverse(0, d-1). Reverse(d, n-1)
     public static void left_rotate_an_array_by_D_places(int[] array, int n, int d) {
         // Eg: [1,2,3,4,5] -> D = 8. (8 % 7) = 1. (D % 7) rotations
         // TC - [1,2,3,4,5,6,7]; D = d; [0th index, 1st index, .... (k-1)th index | kth index....]
@@ -208,6 +208,14 @@ public class Easy_Problems {
         // [1,2,3,4,5,6,7] -> Reverse 1,2,3(d) & 4,5,6,7(n-d) -> [3,2,1,7,6,5,4]
         // Reverse the entire array again -> [4,5,6,7,1,2,3]
         // TC - O(d) + O(n-d) + O(n) = O(2n). SC - No extra space used - O(1)
+
+        // Edge Case
+        if (array.length == 1) {
+            return;
+        }
+
+        // Modularize d
+        d = d % array.length;
 
         reverse(array, 0, d - 1);
         reverse(array, d, n - 1);

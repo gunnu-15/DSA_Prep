@@ -1,7 +1,4 @@
-package Binary_Trees;
-
-import com.sun.source.tree.Tree;
-import org.w3c.dom.Node;
+package Binary_Trees.Traversals;
 
 import java.util.*;
 
