@@ -1,4 +1,4 @@
-package Problems_on_Arrays;
+package Arrays;
 
 public class Hard_Problems {
 }

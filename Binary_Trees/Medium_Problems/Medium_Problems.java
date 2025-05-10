@@ -558,8 +558,6 @@ public class Medium_Problems {
         // Start by passing Root's Left & Right node to Helper function
         return symmetric_binary_tree_helper(root.left, root.right);
         // TC - O(N). SC - O(N)
-
-
     }
 
     private static boolean symmetric_binary_tree_helper(TreeNode left, TreeNode right) {
