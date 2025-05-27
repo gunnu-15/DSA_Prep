@@ -39,7 +39,8 @@ public class Basic_Maths {
         int reverse_number = 0;
         while (n > 0) {
             int last_digit = n % 10;
-            // Important Step - Eg: 9462, digits from last - 2,6,4,9. How can we keep 6 beside 2? - (2 * 10) = 20 + 6 = 26. Similar logic followed subsequently
+            // Important Step - Eg: 9462, digits from last - 2,6,4,9. How can we keep
+            // 6 beside 2? - (2 * 10) = 20 + 6 = 26. Similar logic followed subsequently
             reverse_number = (reverse_number * 10) + last_digit;
             n = n / 10;
         }
@@ -62,7 +63,8 @@ public class Basic_Maths {
 
         List<Integer> factors_of_n1 = factors_of_number(n1);
         List<Integer> factors_of_n2 = factors_of_number(n2);
-        // Modifies factors_of_n1, so use a copy if the original list needs to be preserved.
+        // Modifies factors_of_n1, so use a copy if the original list needs to be
+        // preserved.
         factors_of_n1.retainAll(factors_of_n2);
 
         int gcd_hcf = Collections.max(factors_of_n1);
@@ -97,14 +99,16 @@ public class Basic_Maths {
     }
 
 
-    // Armstrong Numbers - a number where the sum of its digits, each raised to the power of the number of digits in the number, equals the original number.
+    // Armstrong Numbers - a number where the sum of its digits, each raised to
+    // the power of the number of digits in the number, equals the original number.
 
     public static void armstrong_numbers(int n) {
         // Eg: 153 = 1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153.
         // Eg: 370 = 3^3 + 7^3 + 0^3 = 27 + 343 + 0 = 370
         // 371, 407. 4-digit nos - 1634, 8208, 9474
 
-        // Step I - Find count of digits in the number, this will act as exponent to digits
+        // Step I - Find count of digits in the number, this will act as exponent
+        // to digits
         List<Integer> digits_list = count_digits(n);
         int total_digits = digits_list.size();
 
@@ -125,7 +129,8 @@ public class Basic_Maths {
 
     public static void check_for_prime(int n) {
         int factor_count = 0;
-        // Eg: 36 factors - 1 * 36, 2 * 18, 3 * 12, 4 * 9, (sqrt(N))6 * 6(sqrt(N)), ...(factors will repeat after this)
+        // Eg: 36 factors - 1 * 36, 2 * 18, 3 * 12, 4 * 9, (sqrt(N))6 * 6(sqrt(N)),
+        // ...(factors will repeat after this)
         // Time Complexity - O(sqrt(n))
         for (int i = 1; i*i <=n; i++) {
             if (n % i == 0) {
